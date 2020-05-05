@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chinese_chess</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: '標楷體', 'Microsoft JhengHei', sans-serif;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* flex-direction: column; */
+        }
+
+        ul {
+            font-size: 35px;
+            margin: 2rem;
+        }
+
+        #qi-pan {
+            width: 800px;
+            height: 1000px;
+            background: rgb(255, 255, 255);
+            border: 1px solid black;
+            /* 發現父元素設display:flex 而子元素只有一個時子元素margin:auto 會垂直置中對齊 */
+            display: flex;
+        }
+
+        #mid {
+            width: 720px;
+            height: 900px;
+            border: 1px solid black;
+            margin: auto;
+            background-color: #ffffaa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+
+        }
+
+        /* ---------------top------------------------------------------------------------------------ */
+        #top {
+            width: 722px;
+            height: 402px;
+            border: 1px solid black;
+            position: relative;
+
+        }
+
+        #topgrid {
+            width: 100%;
+        }
+
+        .topgrid {
+            width: 90px;
+            height: 100px;
+            border: 1px solid black;
+            float: left;
+        }
+
+        #pieces1 {
+            width: 785px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: absolute;
+            top: -32.5px;
+            left: -32.5px;
+            z-index: 99;
+        }
+
+        .piece1 {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 65px;
+            font-size: 45px;
+            font-weight: bolder;
+            background: white;
+        }
+
+        #pieces {
+            width: 605px;
+            /* background: lightcoral; */
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            bottom: 167.5px;
+            left: 57.5px;
+            /* left: -32px; */
+            z-index: 99;
+        }
+
+        .pieces {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 65px;
+            font-size: 45px;
+            font-weight: bolder;
+            background: white;
+        }
+
+        #piece2 {
+            width: 785px;
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            bottom: 67.5px;
+            left: -32.5px;
+            z-index: 99;
+        }
+
+        .piece2 {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 65px;
+            font-size: 45px;
+            font-weight: bolder;
+            background: white;
+        }
+
+        /* -----------------middle-------------------------------------------------------------------- */
+        #middle {
+            width: 722px;
+            height: 100px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 50px;
+            font-family: '標楷體';
+        }
+
+        /* -----------------bottom----------------------- --------------------------------------------*/
+        #bottom {
+            width: 722px;
+            height: 402px;
+            border: 1px solid black;
+            position: relative;
+            color: red;
+
+        }
+
+        #bottomgrid {
+            width: 100%;
+        }
+
+        .bottomgrid {
+            width: 90px;
+            height: 100px;
+            border: 1px solid black;
+            float: left;
+        }
+
+        #pieces3 {
+            width: 785px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            position: absolute;
+            top: 32.5px;
+            left: -32.5px;
+            z-index: 99;
+        }
+
+        .piece3 {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 65px;
+            font-size: 45px;
+            font-weight: bolder;
+            background: white;
+        }
+
+        #pieces4 {
+            width: 605px;
+            /* background: lightcoral; */
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            bottom: 167.5px;
+            left: 57.5px;
+            /* left: -32px; */
+            z-index: 99;
+        }
+
+        .pieces4 {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 65px;
+            font-size: 45px;
+            font-weight: bolder;
+            background: white;
+        }
+
+        #piece5 {
+            width: 785px;
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 67.5px;
+            left: -32.5px;
+            z-index: 99;
+        }
+
+        .piece5 {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 65px;
+            font-size: 45px;
+            font-weight: bolder;
+            background: white;
+        }
+
+        /* ------------斜線----------------- */
+        #topgrid:nth-child(4)::before {
+            content: '';
+            width: 267.252px;
+            height: 200px;
+            border: 0;
+            border-bottom: 1px solid black;
+            position: absolute;
+            top: -68px;
+            left: 301px;
+            z-index: 98;
+            transform: rotate(48.225deg);
+        }
+
+        #topgrid :nth-child(13)::after {
+            content: '';
+            width: 267.252px;
+            height: 200px;
+            border: 0;
+            border-bottom: 1px solid black;
+            position: absolute;
+            top: 66.29px;
+            left: 301px;
+            z-index: 98;
+            transform: rotate(132.225deg);
+        }
+
+        #bottomgrid :nth-child(20)::before {
+            content: '';
+            width: 267.2px;
+            height: 200px;
+            border: 0;
+            border-bottom: 1px solid black;
+            position: absolute;
+            bottom: 66px;
+            left: 301px;
+            z-index: 98;
+            transform: rotate(48deg);
+        }
+
+        #bottomgrid :nth-child(29)::before {
+            content: '';
+            width: 267.2px;
+            height: 200px;
+            border: 0;
+            border-bottom: 1px solid black;
+            position: absolute;
+            bottom: -66.5px;
+            left: 301px;
+            z-index: 98;
+            transform: rotate(132.25deg);
+        }
+
+        .
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>棋</li>
+        <li>盤</li>
+        <li>裡</li>
+        <li>，</li>
+        <li>車</li>
+        <li>無</li>
+        <li>輪</li>
+        <li>馬</li>
+        <li>不</li>
+        <li>韁</li>
+        <li>，</li>
+        <li>叫</li>
+        <li>聲</li>
+        <li>將</li>
+        <li>軍</li>
+        <li>堤</li>
+        <li>防</li>
+        <li>堤</li>
+        <li>防</li>
+    </ul>
+    <div id="qi-pan">
+        <div id="mid">
+            <div id="top">
+                <div id="pieces1">
+                    <div class="piece1">車</div>
+                    <div class="piece1">馬</div>
+                    <div class="piece1">象</div>
+                    <div class="piece1">士</div>
+                    <div class="piece1">將</div>
+                    <div class="piece1">士</div>
+                    <div class="piece1">象</div>
+                    <div class="piece1">馬</div>
+                    <div class="piece1">車</div>
+                </div>
+                <div id="pieces">
+                    <div class="pieces">炮</div>
+                    <div class="pieces">炮</div>
+                </div>
+                <div id="piece2">
+                    <div class="piece2">卒</div>
+                    <div class="piece2">卒</div>
+                    <div class="piece2">卒</div>
+                    <div class="piece2">卒</div>
+                    <div class="piece2">卒</div>
+                </div>
+                <div id="topgrid">
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid leftright"></div>
+                    <div class="topgrid rightleft"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid rightleft"></div>
+                    <div class="topgrid leftright"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                    <div class="topgrid"></div>
+                </div>
+
+            </div>
+            <div id="middle">
+                <div id="chuhe">楚河</div>
+                <div id="hanjie">漢界</div>
+            </div>
+            <div id="bottom">
+                <div id="pieces3">
+                    <div class="piece3">車</div>
+                    <div class="piece3">馬</div>
+                    <div class="piece3">象</div>
+                    <div class="piece3">士</div>
+                    <div class="piece3">帥</div>
+                    <div class="piece3">士</div>
+                    <div class="piece3">象</div>
+                    <div class="piece3">馬</div>
+                    <div class="piece3">車</div>
+                </div>
+                <div id="pieces4">
+                    <div class="pieces4">炮</div>
+                    <div class="pieces4">炮</div>
+                </div>
+                <div id="piece5">
+                    <div class="piece5">兵</div>
+                    <div class="piece5">兵</div>
+                    <div class="piece5">兵</div>
+                    <div class="piece5">兵</div>
+                    <div class="piece5">兵</div>
+                </div>
+                <div id="bottomgrid">
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid leftright"></div>
+                    <div class="bottomgrid rightleft"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid rightleft"></div>
+                    <div class="bottomgrid leftright"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                    <div class="bottomgrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul>
+        <li>圖</li>
+        <li>畫</li>
+        <li>裡</li>
+        <li>，</li>
+        <li>龍</li>
+        <li>不</li>
+        <li>吟</li>
+        <li>虎</li>
+        <li>不</li>
+        <li>笑</li>
+        <li>，</li>
+        <li>小</li>
+        <li>小</li>
+        <li>書</li>
+        <li>僮</li>
+        <li>可</li>
+        <li>笑</li>
+        <li>可</li>
+        <li>笑</li>
+    </ul>
+</body>
+
+</html>
